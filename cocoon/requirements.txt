@@ -1,0 +1,10 @@
+flask
+numpy
+tensorflow
+keras
+pillow
+opencv-python
+pandas
+beautifulsoup4
+requests
+lxml
