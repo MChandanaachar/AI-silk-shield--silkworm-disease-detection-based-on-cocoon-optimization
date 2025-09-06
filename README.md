@@ -56,8 +56,8 @@ output.csv
 M Chandana
 
 
-Multilingual farmer support (Kannada, Hindi, English)
+Multilingual farmer support (Kannada, English)
 
 👩‍💻 Author
 M Chandana
-AI/ML | Passionate about Agriculture Tech and app development
+AI/ML and JAVA | Passionate about Agriculture Tech and app development
