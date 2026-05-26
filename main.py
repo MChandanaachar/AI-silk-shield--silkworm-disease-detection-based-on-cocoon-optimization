@@ -13,8 +13,7 @@ app.register_blueprint(price_app)
 
 @app.route('/price')
 def price():
-    # call a function in price_app to get the list of PDF files
-    pdf_files = price_app.index()
+    return render_template('price.html')
 
     # render the template with the list of PDF files
     #return render_template('price.html', pdf_files=pdf_files)
@@ -221,3 +220,10 @@ control = {
 
 if __name__ == '__main__':
     app.run(debug=True)
+import os
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+@app.route("/health")
+def health():
+    return {"status": "ok"}
