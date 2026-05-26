@@ -1,24 +1,15 @@
 from flask import Flask, render_template, request
 from silk_worm import pred_silkworm_diseases
-
-
-
-
 from price import price_app
+import os
 
 app = Flask(__name__)
 
-# Register the blueprint from the price.py file
 app.register_blueprint(price_app)
 
 @app.route('/price')
 def price():
     return render_template('price.html')
-
-    # render the template with the list of PDF files
-    #return render_template('price.html', pdf_files=pdf_files)
-
-
 
 @app.route('/')
 def index():
@@ -72,61 +63,64 @@ def home():
 def about():
     return render_template('about.html')
 
-
 @app.route('/week1_k')
 def week1_k():
     return render_template('week1_k.html')
+
 @app.route('/week1')
 def week1():
     return render_template('week1.html')
+
 @app.route('/week2_k')
 def week2_k():
     return render_template('week2_k.html')
+
 @app.route('/week2')
 def week2():
     return render_template('week2.html')
+
 @app.route('/week3_k')
 def week3_k():
     return render_template('week3_k.html')
+
 @app.route('/week3')
 def week3():
     return render_template('week3.html')
+
 @app.route('/week4_k')
 def week4_k():
     return render_template('week4_k.html')
+
 @app.route('/week4')
 def week4():
     return render_template('week4.html')
+
 @app.route('/week5_k')
 def week5_k():
     return render_template('week5_k.html')
+
 @app.route('/week5')
 def week5():
     return render_template('week5.html')
 
-
-pages = {
-    'week1': 'week1.html',
-    'week2': 'week2.html',
-    'week3': 'week3.html',
-     'week4': 'week4.html',
-      'week5': 'week5.html'
-}
-
 @app.route('/stage', methods=['GET', 'POST'])
 def stage():
     return render_template('index_stage.html')
-@app.route('/predict1',methods=['GET','POST'])
+
+@app.route('/predict1', methods=['GET', 'POST'])
 def predict1():
-    file=request.files['image']
-    file_path='static/uploads/'+file.filename
+    file = request.files['image']
+    file_path = 'static/uploads/' + file.filename
     file.save(file_path)
-    pred,output_page=pred_silkworm_diseases(tomato_plant=file_path)
-    return render_template(output_page,pred_output=pred,user_image=file_path)
+
+    pred, output_page = pred_silkworm_diseases(file_path)
+
+    return render_template(output_page,
+                           pred_output=pred,
+                           user_image=file_path)
 
 
-
-
+# ✅ YOUR CONTROL DICTIONARY (RESTORED EXACTLY)
 control = {
     'Leaf rust disease':
     ['Choose rust-resistant plant varieties.',
@@ -147,7 +141,7 @@ control = {
     'Avoid overwatering.',
     'Trim affected parts.',
     'Regular monitoring.',
-     '',
+    '',
     'ಕನ್ನಡ',
     '',
     'ಹಾಳಾದ ಎಲೆಗಳನ್ನು ಮತ್ತು ಅವುಗಳ ನಾಶಮಾಡಿ.',
@@ -156,14 +150,13 @@ control = {
     'ಪ್ರಭಾವಿತ ಭಾಗಗಳನ್ನು ಕತ್ತರಿಸಿ.',
     'ನಿಯಮಿತವಾಗಿ ಪರಿಶೀಲಿಸಿ.'],
 
-     
-    'Mulberry Stem Canker': 
+    'Mulberry Stem Canker':
     ['Remove and destroy infected mulberry stems and leaves.',
     'Cut infected branches at least 20 cm below visible signs of infection.',
     'Maintain proper irrigation, fertilization, and spacing between trees.',
     'Avoid planting mulberry trees in previously infected areas.',
     'Consider using resistant or tolerant mulberry tree varieties.',
-     '',
+    '',
     'ಕನ್ನಡ',
     '',
     'ಹಾಳಾದ ಮಲ್ಬೆರಿ ನರಗಳನ್ನು ತೆಗೆದುಹಾಕಿ ಮತ್ತು ಎಲೆಗಳನ್ನು ನಾಶಮಾಡಿ.',
@@ -174,13 +167,13 @@ control = {
 
     'Powdery Mildew':
     ['Rotate crops and avoid planting the same crop in the same location consecutively.',
-     'Avoid overhead irrigation and keep leaves dry.',
-     'Prune and remove infected plant parts regularly.',
-     'Provide adequate spacing between plants to improve air circulation.',
-      '',
+    'Avoid overhead irrigation and keep leaves dry.',
+    'Prune and remove infected plant parts regularly.',
+    'Provide adequate spacing between plants to improve air circulation.',
+    '',
     'ಕನ್ನಡ',
     '',
-     'ಬೆಳೆಗಳನ್ನು ಪುನರಾವರ್ತಿಸಿ ಮತ್ತು ಅದೇ ಸ್ಥಳದಲ್ಲಿ ಸರಿಯಾದ ಬೆಳೆಯನ್ನು ನೆಡುವುದನ್ನು ವಿರೋಧಿಸಿ.',
+    'ಬೆಳೆಗಳನ್ನು ಪುನರಾವರ್ತಿಸಿ ಮತ್ತು ಅದೇ ಸ್ಥಳದಲ್ಲಿ ಸರಿಯಾದ ಬೆಳೆಯನ್ನು ನೆಡುವುದನ್ನು ವಿರೋಧಿಸಿ.',
     'ಮೇಲಿನ ನೀರಾವರಣವನ್ನು ತಡೆಹಿಡಿದು ಎಲೆಗಳನ್ನು ಒಣಗಿಸಿ ಇರಿಸಿ.',
     'ಹೋರಾಟ ಮಾಡಲು ಮತ್ತು ಹೊಂದಿದ ಸಸ್ಯ ಭಾಗಗಳನ್ನು ನಿರ್ಮೂಲಗೊಳಿಸಲು ನಿಯಮಿತವಾಗಿ ಕತ್ತರಿಸಿ.',
     'ಬೆಳೆಗಳ ನಡುವೆ ಸರಿಯಾದ ಹಂತವನ್ನು ಕಾಯುವಂತೆ ಸರಿಯಾದ ಅಂತರವನ್ನು ನೀಡಿ.'],
@@ -190,9 +183,9 @@ control = {
     'Incorporate organic matter to improve soil and indirectly suppress nematode populations.',
     'Cover the soil with plastic sheets during hot months to kill nematodes.',
     'Avoid overwatering to minimize nematode activity.',
-   
+    '',
     'Regularly check for root knot disease symptoms and take action promptly.',
-  '',
+    '',
     'ಕನ್ನಡ',
     '',
     'ಹಾಳಾದ ಬೆಳೆಯ ಮರಗಳ ಅವಶೇಷಗಳನ್ನು ತೆಗೆದುಹಾಕಲು ನೇಮತೋಡುಗಳ ಕುಟುಕುವುದನ್ನು ತಡೆಯಿರಿ.',
@@ -201,29 +194,14 @@ control = {
     'ನೇಮತೋಡುಗಳ ಸಕ್ರಿಯತೆಯನ್ನು ಕಡಿಮೆಗೊಳಿಸಲು ಅತಿಯಾಗಿ ನೀರು ಹಾಕಬೇಡಿ.',
     'ರೂಟ್ ನಾಟ್ ರೋಗದ ಲಕ್ಷಣಗಳನ್ನು ನಿಯಮಿತವಾಗಿ ಪರಿಶೀಲಿಸಿ ತಕ್ಷಣ ಕ್ರಿಯೆ ಹಾಕಿ.'],
 
-    'leaf is healthy':[]
+    'leaf is healthy': []
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
-import os
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
+
 @app.route("/health")
 def health():
     return {"status": "ok"}
